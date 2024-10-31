@@ -10,6 +10,13 @@ public class Porte extends Bloc{
         this.couleur = Couleur.BLEU;
     }
 
+    public void verouiller() throws PorteVerrouilleeException{
+        if (!verrouillee) {
+            verrouillee=true;}
+        else {
+            throw new PorteVerrouilleeException();}
+    }
+
     public boolean estVerrouillee(){
         return verrouillee;
     }
