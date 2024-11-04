@@ -18,6 +18,13 @@ import ej.blocs.Toit;
 import ej.blocs.Type;
 import ej.exceptions.IllegalBlocException;
 import ej.kits.KitDemarrage;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class Main {
 
@@ -75,7 +82,30 @@ public class Main {
 	private static Set<IBloc> constructionSetBlocs() throws IllegalBlocException {
 		Set<IBloc> blocs = new LinkedHashSet<IBloc>();
 
-		// Le kit contient 4 blocs Mur.
+		ExecutorService executorService = Executors.newFixedThreadPool(10);
+
+		Callable<IBloc> taskMur1 = ()->{return new Mur(3,2,2,true);};
+		Callable<IBloc> taskMur2 = ()->{return new Mur(2,1,2,false);};
+		Callable<IBloc> taskPorte = ()->{return new Porte(2,1,2,false);};
+		Callable<IBloc> taskToit = ()->{return new Toit(3, 1, 1);};
+
+		List<Callable<IBloc>> tasks =Arrays.asList(taskMur1,taskMur1,taskMur2,taskMur2,taskPorte,taskToit,taskToit,taskToit,taskToit);
+
+		try {
+			List<Future<IBloc>> resultats = executorService.invokeAll(tasks);
+			resultats.forEach(resultat->{
+				try {
+						blocs.add(resultat.get());
+				} catch (InterruptedException | ExecutionException e) 
+				{
+					logger.error("Erreur durant la création des blocs");
+				}
+			});
+		} catch (InterruptedException e) {
+			logger.error("Erreur durant la création des blocs");
+		}
+
+	/* 	// Le kit contient 4 blocs Mur.
 		blocs.add(new Mur(3, 2, 2, true));
 		blocs.add(new Mur(3, 2, 2, true));
 		blocs.add(new Mur(2, 1, 2, false));
@@ -89,7 +119,7 @@ public class Main {
 		blocs.add(new Toit(3, 1, 1));
 		blocs.add(new Toit(3, 1, 1));
 		blocs.add(new Toit(3, 1, 1));
-
+	*/
 		return blocs;
 	}
 
