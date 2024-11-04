@@ -1,43 +1,45 @@
 package ej.blocs;
 
-import com.sun.jdi.VoidValue;
+import java.util.function.Predicate;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import ej.PorteVerrouilleeException;
 import ej.exceptions.IllegalBlocException;
-import java.util.function.Predicate;
+import ej.exceptions.PorteVerrouilleException;
 
-public class Porte extends Bloc{
+public class Porte extends Bloc {
+	
+	private static Logger logger = LogManager.getLogger(Porte.class);
 
-    private static Logger logger = LogManager.getLogger(Porte.class);
-    
-    private boolean verrouillee;
+	private boolean verrouillee;
 
-    public Porte(final int longueur, final int largeur, final int hauteur, final boolean verrouillee) throws IllegalBlocException{
-        super(longueur, largeur, hauteur, Couleur.BLEU);
-        this.verrouillee = verrouillee;
-    }
+	public Porte(final int longueur, final int largeur, final int hauteur, final boolean verrouillee)
+			throws IllegalBlocException {
+		super(longueur, largeur, hauteur, Couleur.BLEU);
+		this.verrouillee = verrouillee;
+	}
 
-    public void verouiller() throws PorteVerrouilleeException{
-        if (!verrouillee) {
-            verrouillee=true;}
-        else {
-            logger.error("Porte déjà verrouillée. Elle ne peut l'être à nouveau");
-            throw new PorteVerrouilleeException();}
-    }
+	public boolean estVerrouillee() {
+		return verrouillee;
+	}
 
-    public boolean estVerrouillee(){
-        return verrouillee;
-    }
-
-    public void forcerSerrure(Predicate<String> fonction){
-        String cleSecrete = "#secret123";
-        if(this.verrouillee){
-            if(fonction.test(cleSecrete)){
-                this.verrouillee=false;
-            }
-        }
-    }
-
+	public void verrouiller() throws PorteVerrouilleException {
+		if (verrouillee) {
+			logger.error("La porte ne peut pas être verouillée car c'est déjà le cas.");
+			throw new PorteVerrouilleException();
+		} else {
+			verrouillee = true;
+		}
+	}
+	
+	public void forcerSerrure(Predicate<String> fonction) {
+		String cleSecrete = "#secret123";
+		if(this.verrouillee) {
+			if(fonction.test(cleSecrete)) {
+				this.verrouillee = false;
+			} 
+		}
+	}
+	
 }

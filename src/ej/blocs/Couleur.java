@@ -1,9 +1,9 @@
 package ej.blocs;
 
 public enum Couleur {
-    VERT,
-    BLEU,
-    GRIS,
-    MARRON,
-    NOIR
+	BLEU,
+	GRIS,
+	MARRON,
+	NOIR,
+	VERT
 }

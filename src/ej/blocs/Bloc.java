@@ -5,48 +5,50 @@ import org.apache.logging.log4j.Logger;
 
 import ej.exceptions.IllegalBlocException;
 
-public abstract class Bloc implements IBloc{
+public abstract class Bloc implements IBloc {
+	
+	private static Logger logger = LogManager.getLogger(Bloc.class);
 
-    protected int longueur;
-    protected int largeur;
-    protected int hauteur;
-    protected Couleur couleur;
+	protected int longueur;
+	protected int largeur;
+	protected int hauteur;
+	protected Couleur couleur;
 
-    private static Logger logger = LogManager.getLogger(Bloc.class);
+	public Bloc(final int longueur, final int largeur, final int hauteur, final Couleur couleur) throws IllegalBlocException {
+		if (longueur < MIN_LONGUEUR || largeur < MIN_LARGEUR || hauteur < MIN_HAUTEUR) {
+			logger.error("Les valeurs minimales pour longueur, largeur et hauteur n'ont pas été respectées.");
+			throw new IllegalBlocException();
+		}
+		this.longueur = longueur;
+		this.largeur = largeur;
+		this.hauteur = hauteur;
+		this.couleur = couleur;
+		
+		/* Bloc de code pour simuler un problème de performance. */
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			logger.error("Problème lors de la construction du bloc");
+		}
+		/* Fin du bloc de code pour simuler un problème de performance. */
+		
+		logger.debug("Un bloc de type " + this.getClass().getSimpleName() + " a été construit.");
+	}
 
-    public Bloc(final int hauteur, final int largeur, final int longueur, final Couleur couleur)  throws IllegalBlocException{
-        if (longueur<MIN_LONGUEUR||largeur<MIN_LARGEUR||hauteur<MIN_HAUTEUR){
-            throw new IllegalBlocException();
-        }
-        
-        this.hauteur = hauteur;
-        this.largeur = largeur;
-        this.longueur = longueur;
-        this.couleur = couleur;
+	public int getLongueur() {
+		return longueur;
+	}
 
-        logger.info("Bloc construit");
-    }
+	public int getLargeur() {
+		return largeur;
+	}
 
-    public void setCouleur(Couleur couleur) {
-        this.couleur = couleur;
-    }
+	public int getHauteur() {
+		return hauteur;
+	}
 
-    public int getLongueur() {
-        return longueur;
-    }
+	public void setCouleur(Couleur couleur) {
+		this.couleur = couleur;
+	}
 
-    public int getLargeur() {
-        return largeur;
-    }
-
-    public int getHauteur() {
-        return hauteur;
-    }
-
-    public Couleur getCouleur() {
-        return couleur;
-    }
-    
-    
 }
-
