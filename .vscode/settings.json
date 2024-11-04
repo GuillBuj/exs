@@ -1,7 +1,9 @@
 {
   "java.project.referencedLibraries": [
-    "lib/**/*.jar",
     "c:\\Users\\teb03\\Desktop\\gits\\zipdl\\apache-log4j-2.3.2-bin\\apache-log4j-2.3.2-bin\\log4j-api-2.3.2.jar",
     "c:\\Users\\teb03\\Desktop\\gits\\zipdl\\apache-log4j-2.3.2-bin\\apache-log4j-2.3.2-bin\\log4j-core-2.3.2.jar"
-]
+  ],
+  "java.project.sourcePaths": [
+    "src"
+  ]
 }
